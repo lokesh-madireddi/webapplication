@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Store</title>
+</head>
+<body>
+    <h2>Welcome, {{ session['user'] }}</h2>
+    <a href="/logout">Logout</a>
+    
+    <h3>Available Products</h3>
+    <ul>
+        {% for product in products %}
+            <li>{{ product[1] }} - ${{ product[2] }} 
+                <a href="/delete_product/{{ product[0] }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <h3>Add Product</h3>
+    <form method="POST" action="/add_product">
+        <label>Product Name:</label>
+        <input type="text" name="name" required><br><br>
+        <label>Price:</label>
+        <input type="number" step="0.01" name="price" required><br><br>
+        <button type="submit">Add Product</button>
+    </form>
+</body>
+</html>
