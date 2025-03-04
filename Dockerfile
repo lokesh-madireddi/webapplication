@@ -17,7 +17,7 @@ RUN pip install --no-cache-dir flask
 EXPOSE 5000
 
 # Initialize the database before running
-RUN python -c "from FlaskApp import init_db; init_db()"
+RUN python -c "from app import init_db; init_db()"
 
 # Run the application
 CMD ["python", "app.py"]
