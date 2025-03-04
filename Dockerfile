@@ -7,8 +7,11 @@ WORKDIR /app
 # Copy the current directory contents into the container
 COPY . .
 
-# Install dependencies
-RUN pip install --no-cache-dir flask sqlite3
+# Install system dependencies (including SQLite)
+RUN apt-get update && apt-get install -y sqlite3 libsqlite3-dev && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --no-cache-dir flask
 
 # Expose port 5000 for Flask
 EXPOSE 5000
