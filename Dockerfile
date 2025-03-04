@@ -16,8 +16,5 @@ RUN pip install --no-cache-dir flask
 # Expose port 5000 for Flask
 EXPOSE 5000
 
-# Initialize the database before running
-RUN python -c "from FlaskApp import init_db; init_db()"
-
 # Run the application
-CMD ["python", "app.py"]
+CMD ["sh", "-c", "python -c 'from app import init_db; init_db()' && python app.py"]
