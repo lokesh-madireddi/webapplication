@@ -61,8 +61,12 @@ pipeline{
         }
         stage("Push to Docker Hub"){
             steps{
-                script{
-                    docker_push("DockerHub","webapplication")
+                withCredentials([usernamePassword(
+                    credentialsId:"DockerHub",passwordVariable:"pass",usernameVariable:"user")])
+                {
+                    sh "docker login -u ${env.user} -p ${env.pass}"
+                    sh "docker image tag webapplication ${env.user}/webapplication"
+                    sh "docker push ${env.user}/webapplication:latest"
                 }  
             }
         }
