@@ -1,10 +1,10 @@
 # Use an official Python runtime as a parent image
 FROM python:3.12-slim
 
-# Set the working directory in the container
+# Set the working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container
+# Copy project files
 COPY . .
 
 # Install system dependencies (including SQLite)
@@ -13,8 +13,11 @@ RUN apt-get update && apt-get install -y sqlite3 libsqlite3-dev && rm -rf /var/l
 # Install Python dependencies
 RUN pip install --no-cache-dir flask
 
-# Expose port 5000 for Flask
+# Expose port 5000
 EXPOSE 5000
 
+# Initialize the database before running
+RUN python -c "from FlaskApp import init_db; init_db()"
+
 # Run the application
-CMD ["sh", "-c", "python -c 'from app import init_db; init_db()' && python app.py"]
+CMD ["python", "app.py"]
